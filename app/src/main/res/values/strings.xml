@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">01NoActyvitiIdGS9BMA23</string>
+    <string name="hello_world">dice 1</string>
+    <string name="reset">RESET</string>
+    <string name="roll">ROLL</string>
+    <string name="times">TIMES</string>
+    <string name="tex">dice 2</string>
 </resources>
