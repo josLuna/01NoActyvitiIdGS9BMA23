@@ -1,8 +1,12 @@
 package com.example.a01noactyvitiidgs9bma23
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.a01noactyvitiidgs9bma23.databinding.ActivityMainBinding
 
@@ -44,12 +48,21 @@ class MainActivity : AppCompatActivity() {
                 else -> R.drawable.dice_6
             })
         })
+        binding.btnUserName?.setOnClickListener{
+            addUserName(it)
+        }
+        binding.tvUserName?.setOnClickListener{
+            updateUsername(it)
+        }
+        binding.reset.setOnClickListener { updateUsername(it) }
 
     }
     /**
      * para ver todos los metodos de vida solo es precionar ctrl + o
      * */
     private fun rollDice(){
+        binding.imageView.setVisibility(View.VISIBLE)
+        binding.imageView3.setVisibility(View.VISIBLE)
         val randomInt =(1..6).random()
         val randomInt2 = (1..6).random()
         model.setDice1Number(randomInt)
@@ -60,8 +73,31 @@ class MainActivity : AppCompatActivity() {
     private fun time(){
        Toast.makeText(this,"Has tirado ${numero} veces los dados",Toast.LENGTH_SHORT).show()
     }
-    private  fun reset(){
-        numero = 0
-    }
 
+    private fun updateUsername(view:View?){
+        numero = 0
+        binding.tvMainAct.text = "0"
+        binding.textView.text = "0"
+        binding.imageView.setVisibility(View.INVISIBLE)
+        binding.imageView3.setVisibility(View.INVISIBLE)
+        binding.tvUserName?.visibility=View.VISIBLE
+        binding.btnUserName?.visibility=View.VISIBLE
+        binding.edtUserName?.visibility=View.GONE
+        //view?.visibility=View.GONE
+       binding.tvUserName?.requestFocus()
+
+        val showKbd=getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        showKbd.showSoftInput(binding.edtUserName,1)
+    }
+    private fun addUserName(view:View?) {
+        model.userName(binding.tvUserName?.text)
+        binding.btnUserName?.visibility=View.GONE
+        binding.tvUserName?.visibility=View.GONE
+        //view?.visibility=View.GONE
+        binding.edtUserName?.visibility= View.VISIBLE
+
+
+        val hideKbd=getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        hideKbd.hideSoftInputFromWindow(view?.windowToken,0)
+    }
 }
